@@ -1,56 +1,60 @@
-// get selection options
-const selectionButtons = document.querySelectorAll('[data-selection]')
-const finalColumn = document.querySelector('[data-final-column]')
-const SELECTIONS = [
-    {
-        name: 'rock',
-        emoji: '✊',
-        beats: 'scissors'
-    },
-    {
-        name: 'paper',
-        emoji: '🤚',
-        beats: 'rock'
-    },
-    {
-        name: 'scissors',
-        emoji: '✌️',
-        beats: 'paper'
+
+const options = ["rock", "paper", "scissors"];
+
+function getComputerChoice(){
+    const choice = options[Math.floor(Math.random() * options.length)];
+    return choice;
+}
+function checkWinner(playerSelection, computerSelection){
+    if (playerSelection == computerSelection){
+        return "Tie"
+    } 
+    else if (
+        (playerSelection == "rock" && computerSelection == "scissors") ||
+        (playerSelection == "paper" && computerSelection == "rock") ||
+        (playerSelection == "scissors" && computerSelection == "paper")
+        )
+          {return "Player";
+        }
+    else {
+        return "Computer";
     }
-]
-
-selectionButtons.forEach(selectionButton => {
-    selectionButton.addEventListener('click', e => {
-        const selectionName = selectionButton.dataset.selection
-        const selection = SELECTIONS.find(selection => selection.name === selectionName)
-        makeSelection(selection)
-    })
-})
-
-function makeSelection(selection) {
-    const computerSelection = randomSelection()
-    const yourWinner = isWinner(selection, computerSelection)
-    const computerWinner = isWinner(computerSelection, selection)
-
-    addSelectionResult(computerSelection, computerWinner)
-    addSelectionResult(selection, yourWinner)
 }
 
-function addSelectionResult(selection, winner){
-    const div = document.createElement('div')
-    div.innerTextt = selection.emoji
-    div.classList.add('result-selection')
-    if (winner) div.classList.add('Winner')
-    finalColumn.after(div)
-
+function playRound(playerSelection, computerSelection){
+    const result = checkWinner(playerSelection, computerSelection);
+    if(result == "Tie"){
+        return "It's a Tie!";
+    } 
+    else if (result == "Player") {
+       return `You win! ${playerSelection} beats ${computerSelection}`
+    }else return `You lose! ${computerSelection} beats ${playerSelection}`
 }
 
-function isWinner(selection, opponentSelection) {
-    return selection.beats === opponentSelection.name
+function getPlayerChoice() {
+    let validatedInput = false;
+    while(validatedInput == false) {
+        const choice = prompt("Rock Paper Scissors");
+        if(choice == null){
+            continue;
+
+        }
+        const choiceInLower = choice.toLowerCase();
+        if(options.includes(choiceInLower)){
+            validatedInput = true;
+            return choiceInLower;
+        }
+    }
 }
 
-function randomSelection() {
-    const randomIndex = Math.floor(Math.random() * SELECTIONS.length)
-    return SELECTIONS[randomIndex]
+function game(){
+    console.log("something")
+    for (let i = 0; i < 5; i++) {
+        const playerSelection = getPlayerChoice();
+        const computerSelection = getComputerChoice;
+        console.log(playRound("rock", getComputerChoice));
+    }
 }
+
+game()
 
