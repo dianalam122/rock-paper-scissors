@@ -29,15 +29,32 @@ buttons.forEach((button) => {
     });
 });
  
+const body = document.body
+const div = document.createElement('div')
+body.append(div)
+const tieText = document.createElement('h1')
+div.append(tieText)
+const playerText = document.createElement('h1')
+div.append(playerText)
+const computerText = document.createElement('h1')
+div.append(computerText)
+
+function clearTextContent() {
+    tieText.textContent = '';
+    playerText.textContent = '';
+    computerText.textContent = '';
+}
+
 function playRound(playerSelection, computerSelection){
+    clearTextContent();
     const result = checkWinner(playerSelection, computerSelection);
     if(result == "Tie"){
-        console.log( "It's a Tie!");
+        tieText.textContent = "It's a Tie!";
     } 
     else if (result == "Player") {
-       console.log(`You win! ${playerSelection} beats ${computerSelection}`);
+       playerText.textContent = "You win!";
     }else {
-        console.log (`You lose! ${computerSelection} beats ${playerSelection}`);
+        computerText.textContent = "You lose!";
     } 
 }
 
