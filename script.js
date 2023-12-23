@@ -23,84 +23,83 @@ function checkWinner(playerSelection, computerSelection){
     }
 }
 
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        playRound(button.id, getComputerChoice());        
-    });
-});
  
-const body = document.body
-const div = document.createElement('div')
-body.append(div)
-const tieText = document.createElement('h1')
-div.append(tieText)
-const playerText = document.createElement('h1')
-div.append(playerText)
-const computerText = document.createElement('h1')
-div.append(computerText)
+const body = document.body;
+const div = document.createElement('div');
+body.append(div);
+const roundText = document.createElement('h1');
+div.append(roundText);
+const resultText = document.createElement('h1');
+div.append(resultText);
+const score = document.createElement('h1');
+div.append(score);
+const endText = document.createElement('h1');
+div.append(endText);
+
 
 function clearTextContent() {
-    tieText.textContent = '';
-    playerText.textContent = '';
-    computerText.textContent = '';
+    roundText.textContent = '';
 }
+
+let scorePlayer = 0;
+let scoreComputer = 0;
+
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        // game(button.id)
+        const computerSelection = getComputerChoice();
+
+        if(scorePlayer == 5 || scoreComputer == 5){
+            endText.textContent = "Game Over!"
+        }else playRound(button.id, computerSelection);
+
+    });
+});
+
 
 function playRound(playerSelection, computerSelection){
+
     clearTextContent();
+
     const result = checkWinner(playerSelection, computerSelection);
     if(result == "Tie"){
-        tieText.textContent = "It's a Tie!";
+        roundText.textContent = `Its a tie! Both chose ${playerSelection}`;
     } 
     else if (result == "Player") {
-       playerText.textContent = "You win!";
+       roundText.textContent = `You win! ${playerSelection} beats ${computerSelection}`;
+       scorePlayer++;
     }else {
-        computerText.textContent = "You lose!";
-    } 
+        roundText.textContent = `You lose! ${computerSelection} beats ${playerSelection}`;
+        scoreComputer++;
+    }
+    score.textContent = `Player: ${scorePlayer} - Computer: ${scoreComputer}`;
+
 }
 
+// incorporate 5 rounds into the game. 
 
-// function getPlayerChoice() {
-//     let validatedInput = false;
-//     while(validatedInput == false) {
-//         const choice = prompt("Rock Paper Scissors");
-//         if(choice == null){
-//             continue;
+// function game(buttonId){ 
 
-//         }
-//         const choiceInLower = choice.toLowerCase();
-//         if(options.includes(choiceInLower)){
-//             validatedInput = true;
-//             return choiceInLower;
-//         }
-//     }
-// }
-
-// function game(){
 //     let scorePlayer = 0;
 //     let scoreComputer = 0;
-
+     
 //     for (let i = 0; i < 5; i++) {
-//         const playerSelection = getPlayerChoice();
 //         const computerSelection = getComputerChoice();
-//         console.log(playRound(playerSelection, computerSelection));
-//         if(checkWinner(playerSelection, computerSelection)=="Player"){
+//         playRound(buttonId, computerSelection); 
+//         if(checkWinner(buttonId, computerSelection)=="Player"){
 //             scorePlayer++;
-//         } else if (checkWinner(playerSelection, computerSelection)=="Computer"){
+//         } else if (checkWinner(buttonId, computerSelection)=="Computer"){
 //             scoreComputer++;
 //         }
-//         console.log(scorePlayer);
-//         console.log(scoreComputer); 
 //     }
-//     console.log("Game over") 
+    
+//     endText.textContent = "Game Over!";
 //     if(scorePlayer > scoreComputer){
-//         console.log("Player was the winner")
+//         resultText.textContent = "Player was the winner";
 //     } else if (scorePlayer < scoreComputer){
-//         console.log("Computer was the winner")
+//         resultText.textContent = "Computer was the winner";
 //     } else {
-//         console.log("It was tie!")
+//         resultText.textContent = "It was a tie!";
 //     }
 
 // }
-
-// game()
-
